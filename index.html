@@ -3,184 +3,405 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Talking Character Prompt Builder — Image-to-Video</title>
+<title>AI Motion Studio</title>
+
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-    color: #e8e8f0; min-height: 100vh; padding: 30px 15px;
-  }
-  .container { max-width: 860px; margin: 0 auto; }
-  h1 { text-align: center; font-size: 1.7em; margin-bottom: 6px;
-       background: linear-gradient(90deg,#a78bfa,#60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .subtitle { text-align: center; color: #9ca3af; margin-bottom: 28px; font-size: .95em; }
-  .card {
-    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12);
-    border-radius: 14px; padding: 22px; margin-bottom: 20px; backdrop-filter: blur(8px);
-  }
-  label { display: block; font-weight: 600; font-size: .85em; margin: 14px 0 5px; color: #c4b5fd; letter-spacing: .3px; }
-  input[type=text], textarea, select {
-    width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,.18);
-    background: rgba(0,0,0,.35); color: #fff; font-size: .95em; outline: none;
-  }
-  input:focus, textarea:focus, select:focus { border-color: #a78bfa; }
-  textarea { resize: vertical; min-height: 70px; }
-  .row { display: flex; gap: 12px; flex-wrap: wrap; }
-  .row > div { flex: 1; min-width: 180px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip {
-    padding: 7px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,.25);
-    background: transparent; color: #e8e8f0; cursor: pointer; font-size: .82em; transition: .15s;
-  }
-  .chip:hover { border-color: #a78bfa; }
-  .chip.active { background: #7c3aed; border-color: #7c3aed; color: #fff; }
-  .btn {
-    width: 100%; padding: 14px; margin-top: 20px; border: none; border-radius: 10px;
-    background: linear-gradient(90deg,#7c3aed,#4f46e5); color: #fff; font-size: 1.05em;
-    font-weight: 700; cursor: pointer; transition: .2s;
-  }
-  .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,.45); }
-  .btn-copy {
-    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.25);
-    padding: 10px; border-radius: 8px; margin-top: 10px; cursor: pointer; color: #fff; width: 100%;
-  }
-  .btn-copy:hover { background: rgba(255,255,255,.2); }
-  #output {
-    white-space: pre-wrap; font-family: 'Consolas', monospace; font-size: .88em;
-    line-height: 1.6; color: #d1fae5; background: rgba(0,0,0,.4);
-    padding: 16px; border-radius: 10px; border: 1px solid rgba(110,231,183,.25); min-height: 120px;
-  }
-  .hidden { display: none; }
-  .tip { font-size: .78em; color: #9ca3af; margin-top: 5px; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #090909;
+  color: white;
+}
+
+header {
+  padding: 20px;
+  background: #151515;
+  border-bottom: 1px solid #292929;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  color: #ff8500;
+  font-size: 23px;
+  font-weight: bold;
+}
+
+.badge {
+  background: #202020;
+  color: #ff9a22;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.container {
+  max-width: 750px;
+  margin: 30px auto;
+  padding: 15px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #999;
+  margin-bottom: 30px;
+}
+
+.card {
+  background: #171717;
+  padding: 22px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #292929;
+}
+
+label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: bold;
+  color: #ff9a22;
+}
+
+.upload {
+  border: 2px dashed #ff8500;
+  border-radius: 12px;
+  padding: 35px 15px;
+  text-align: center;
+  cursor: pointer;
+  color: #ccc;
+}
+
+.upload input {
+  display: none;
+}
+
+#preview {
+  width: 100%;
+  max-height: 350px;
+  object-fit: contain;
+  margin-top: 15px;
+  border-radius: 10px;
+  display: none;
+}
+
+textarea, select, input[type=number] {
+  width: 100%;
+  padding: 14px;
+  background: #242424;
+  color: white;
+  border: 1px solid #444;
+  border-radius: 9px;
+  outline: none;
+  margin-bottom: 18px;
+}
+
+textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+.generate {
+  width: 100%;
+  background: linear-gradient(90deg,#ff7900,#ffad26);
+  color: black;
+  padding: 17px;
+  font-size: 17px;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+.generate:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.status {
+  text-align: center;
+  color: #ffad26;
+  margin: 20px 0;
+}
+
+video {
+  width: 100%;
+  border-radius: 12px;
+  margin-top: 15px;
+  display: none;
+}
+
+.download {
+  display: none;
+  background: #ff8500;
+  color: black;
+  text-decoration: none;
+  padding: 13px;
+  text-align: center;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+footer {
+  text-align: center;
+  color: #666;
+  padding: 25px;
+  font-size: 12px;
+}
 </style>
 </head>
+
 <body>
+
+<header>
+  <div class="logo">⚡ AI MOTION</div>
+  <div class="badge">AI VIDEO STUDIO</div>
+</header>
+
 <div class="container">
-  <h1>🎬 Talking Character Prompt Builder</h1>
-  <p class="subtitle">For image-to-video AI tools — Kling, Runway Act-One, Hedra, Pika, Hailuo, Veo & more</p>
 
-  <div class="card">
-    <div class="row">
-      <div>
-        <label>Character description</label>
-        <input type="text" id="charDesc" placeholder="e.g. a friendly young woman with curly red hair, green eyes">
-      </div>
-      <div>
-        <label>Video tool / model</label>
-        <select id="tool">
-          <option value="generic">Generic / Any tool</option>
-          <option value="kling">Kling AI</option>
-          <option value="runway">Runway Act-One</option>
-          <option value="hedra">Hedra Character-3</option>
-          <option value="veo">Google Veo</option>
-          <option value="hailuo">Hailuo / MiniMax</option>
-          <option value="pika">Pika</option>
-        </select>
-      </div>
-    </div>
+<h1>Create AI Videos</h1>
+<p class="subtitle">
+Turn any picture into an amazing AI video using just an image and prompt.
+</p>
 
-    <label>Emotion / expression while speaking</label>
-    <div class="chips" id="emotionChips"></div>
+<div class="card">
 
-    <label>Speech intensity (lip movement)</label>
-    <div class="chips" id="intensityChips"></div>
+<label>1. Upload Your Image</label>
 
-    <label>Camera & framing</label>
-    <div class="chips" id="cameraChips"></div>
+<label class="upload" for="imageInput">
+📸<br><br>
+Click to upload your image<br>
+<small>JPG, PNG or WEBP</small>
+<input type="file" id="imageInput" accept="image/png,image/jpeg,image/webp">
+</label>
 
-    <label>Background / scene</label>
-    <input type="text" id="scene" placeholder="e.g. cozy home office with warm evening lighting, shallow depth of field">
+<img id="preview" alt="Image preview">
 
-    <label>What the character says (optional — drives mouth/word timing)</label>
-    <textarea id="dialogue" placeholder="e.g. 'Welcome back, everyone — today I'm going to show you something amazing.'"></textarea>
-
-    <label>Head & body motion</label>
-    <div class="chips" id="motionChips"></div>
-
-    <label>Lighting & style</label>
-    <div class="chips" id="styleChips"></div>
-
-    <label>Extra details (optional)</label>
-    <textarea id="extras" placeholder="e.g. blinking naturally, subtle eyebrow raises, hands gesturing slightly, 4K detail"></textarea>
-
-    <button class="btn" id="generateBtn">✨ Generate Prompt</button>
-  </div>
-
-  <div class="card hidden" id="resultCard">
-    <label>Generated prompt</label>
-    <div id="output"></div>
-    <button class="btn-copy" id="copyBtn">📋 Copy to clipboard</button>
-    <p class="tip">Tip: pair the prompt with a high-quality front-facing portrait; keep the face large in frame for better lip-sync accuracy.</p>
-  </div>
 </div>
 
-<script>
-const chipGroups = {
-  emotionChips: { key: 'emotion', options: ['happy & upbeat', 'calm & confident', 'serious & focused', 'excited & energetic', 'warm & empathetic', 'mysterious & soft-spoken'] },
-  intensityChips: { key: 'intensity', options: ['subtle natural lip movement', 'clear articulate lip-sync', 'strong expressive mouth movement'] },
-  cameraChips: { key: 'camera', options: ['close-up on face', 'medium shot chest-up', 'slow gentle push-in', 'static locked shot'] },
-  motionChips: { key: 'motion', options: ['subtle head nods & tilts', 'natural blinking', 'slight eyebrow raises', 'hand gestures while talking', 'hair & fabric gentle motion'] },
-  styleChips: { key: 'style', options: ['cinematic lighting', 'soft warm studio light', 'golden hour glow', 'photorealistic 4K', 'shallow depth of field'] }
-};
-const state = { emotion: null, intensity: null, camera: null, motion: new Set(), style: new Set() };
+<div class="card">
 
-Object.entries(chipGroups).forEach(([groupId, cfg]) => {
-  const el = document.getElementById(groupId);
-  const multi = cfg.key === 'motion' || cfg.key === 'style';
-  cfg.options.forEach(opt => {
-    const b = document.createElement('button');
-    b.className = 'chip'; b.textContent = opt;
-    b.onclick = () => {
-      if (multi) {
-        b.classList.toggle('active');
-        b.classList.contains('active') ? state[cfg.key].add(opt) : state[cfg.key].delete(opt);
-      } else {
-        const wasActive = b.classList.contains('active');
-        el.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-        if (!wasActive) { b.classList.add('active'); state[cfg.key] = opt; } else state[cfg.key] = null;
-      }
-    };
-    el.appendChild(b);
-  });
+<label>2. Describe Your Video</label>
+
+<textarea id="prompt"
+placeholder="Example: Make this person look at the camera, smile naturally and speak with realistic lip movements. Add natural head movements and realistic expressions."></textarea>
+
+<label>3. Video Duration</label>
+
+<select id="duration">
+<option value="5">5 Seconds</option>
+<option value="10">10 Seconds</option>
+<option value="15">15 Seconds</option>
+<option value="30">30 Seconds</option>
+<option value="60">60 Seconds</option>
+</select>
+
+<label>4. Speaking Speed</label>
+
+<select id="speed">
+<option value="0.75">Slow</option>
+<option value="1">Normal</option>
+<option value="1.25">Fast</option>
+<option value="1.5">Very Fast</option>
+</select>
+
+<label>5. Audio</label>
+
+<select id="audio">
+<option value="true">Generate Audio</option>
+<option value="false">No Audio</option>
+</select>
+
+<button class="generate" id="generateBtn">
+✨ GENERATE AI VIDEO
+</button>
+
+<div class="status" id="status"></div>
+
+</div>
+
+<div class="card" id="resultCard" style="display:none">
+
+<label>Your Generated Video</label>
+
+<video id="resultVideo" controls></video>
+
+<a id="download" class="download" download="ai-video.mp4">
+⬇ DOWNLOAD VIDEO
+</a>
+
+</div>
+
+</div>
+
+<footer>
+AI MOTION STUDIO © 2026
+</footer>
+
+<script>
+
+const imageInput = document.getElementById("imageInput");
+const preview = document.getElementById("preview");
+const generateBtn = document.getElementById("generateBtn");
+const statusText = document.getElementById("status");
+
+let selectedImage = null;
+
+imageInput.addEventListener("change", function() {
+
+  const file = this.files[0];
+
+  if (!file) return;
+
+  if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+    alert("Please upload JPG, PNG or WEBP.");
+    return;
+  }
+
+  selectedImage = file;
+
+  preview.src = URL.createObjectURL(file);
+  preview.style.display = "block";
+
 });
 
-document.getElementById('generateBtn').onclick = () => {
-  const desc = document.getElementById('charDesc').value.trim() || 'the character in the image';
-  const scene = document.getElementById('scene').value.trim();
-  const dialogue = document.getElementById('dialogue').value.trim();
-  const extras = document.getElementById('extras').value.trim();
-  const tool = document.getElementById('tool').value;
+generateBtn.addEventListener("click", async function() {
 
-  const parts = [];
-  parts.push(`A lifelike talking video of ${desc} speaking directly to the camera.`);
-  if (state.emotion) parts.push(`Expression: ${state.emotion}.`);
-  if (state.intensity) parts.push(`Mouth: ${state.intensity}, precisely synced as if speaking naturally.`);
-  if (dialogue) parts.push(`The character says: "${dialogue}" — lips move in exact sync with these words.`);
-  else parts.push(`The character speaks naturally with realistic lip-sync and mouth articulation.`);
-  if (state.camera) parts.push(`Camera: ${state.camera}.`);
-  if (scene) parts.push(`Scene: ${scene}.`);
-  if (state.motion.size) parts.push(`Motion details: ${[...state.motion].join(', ')}.`);
-  if (state.style.size) parts.push(`Visual style: ${[...state.style].join(', ')}.`);
-  if (extras) parts.push(extras);
+  const prompt = document.getElementById("prompt").value.trim();
 
-  let prompt = parts.join(' ');
+  if (!selectedImage) {
+    alert("Please upload an image first.");
+    return;
+  }
 
-  if (tool === 'runway') prompt += '\n\n[Runway Act-One note: upload your image as the driver/reference, then use the performance video for facial animation. Use this prompt for style/motion direction.]';
-  if (tool === 'hedra') prompt += '\n\n[Hedra note: attach the audio file with the dialogue; use the prompt above for appearance and motion guidance.]';
-  if (tool === 'kling' || tool === 'hailuo') prompt += '\n\n[Note: set "lip-sync" or "talking avatar" mode, upload the dialogue audio, and use the prompt for visual direction.]';
-  if (tool === 'veo') prompt += '\n\n[Veo note: include the spoken line in the prompt so speech and lip-sync are generated together.]';
+  if (!prompt) {
+    alert("Please enter your video prompt.");
+    return;
+  }
 
-  document.getElementById('output').textContent = prompt;
-  document.getElementById('resultCard').classList.remove('hidden');
-};
+  generateBtn.disabled = true;
+  generateBtn.textContent = "GENERATING...";
+  statusText.textContent = "Submitting your image to the AI video generator...";
 
-document.getElementById('copyBtn').onclick = () => {
-  navigator.clipboard.writeText(document.getElementById('output').textContent);
-  const b = document.getElementById('copyBtn');
-  b.textContent = '✅ Copied!';
-  setTimeout(() => b.textContent = '📋 Copy to clipboard', 1500);
-};
+  try {
+
+    const formData = new FormData();
+
+    formData.append("image", selectedImage);
+    formData.append("prompt", prompt);
+    formData.append("duration", document.getElementById("duration").value);
+    formData.append("speed", document.getElementById("speed").value);
+    formData.append("audio", document.getElementById("audio").value);
+
+    // Connect this endpoint to your backend AI provider.
+    const response = await fetch("/api/generate", {
+      method: "POST",
+      body: formData
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(error || "Video generation failed.");
+    }
+
+    const data = await response.json();
+
+    if (data.videoUrl) {
+
+      showVideo(data.videoUrl);
+
+    } else if (data.jobId) {
+
+      await checkGeneration(data.jobId);
+
+    } else {
+
+      throw new Error("The server did not return a video or job ID.");
+
+    }
+
+  } catch (error) {
+
+    statusText.textContent = "Error: " + error.message;
+
+  } finally {
+
+    generateBtn.disabled = false;
+    generateBtn.textContent = "✨ GENERATE AI VIDEO";
+
+  }
+
+});
+
+async function checkGeneration(jobId) {
+
+  statusText.textContent = "AI is creating your video...";
+
+  for (let i = 0; i < 120; i++) {
+
+    await new Promise(resolve => setTimeout(resolve, 5000));
+
+    const response = await fetch(
+      "/api/status/" + encodeURIComponent(jobId)
+    );
+
+    if (!response.ok) {
+      throw new Error("Unable to check generation status.");
+    }
+
+    const data = await response.json();
+
+    if (data.status === "completed" && data.videoUrl) {
+      showVideo(data.videoUrl);
+      return;
+    }
+
+    if (data.status === "failed") {
+      throw new Error(data.error || "Video generation failed.");
+    }
+
+    statusText.textContent =
+      "Creating your video... " + (i + 1) + "/120";
+  }
+
+  throw new Error("Generation is taking too long. Check again later.");
+
+}
+
+function showVideo(url) {
+
+  const video = document.getElementById("resultVideo");
+  const download = document.getElementById("download");
+
+  video.src = url;
+  video.style.display = "block";
+
+  download.href = url;
+  download.style.display = "block";
+
+  document.getElementById("resultCard").style.display = "block";
+
+  statusText.textContent = "Your AI video is ready!";
+
+}
+
 </script>
+
 </body>
 </html>
