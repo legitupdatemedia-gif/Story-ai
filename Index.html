@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIG_BOSS FLOW STUDIO</title>
+
+<style>
+:root {
+  --bg: #101014;
+  --panel: #19191f;
+  --line: #30303a;
+  --text: #f4f2f7;
+  --muted: #a5a2af;
+  --purple: #a78bfa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+}
+
+.app {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 250px 1fr;
+}
+
+.sidebar {
+  background: #141419;
+  border-right: 1px solid var(--line);
+  padding: 22px 16px;
+}
+
+.brand {
+  font-size: 17px;
+  font-weight: bold;
+  color: var(--purple);
+  margin-bottom: 35px;
+}
+
+.nav button {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  margin-bottom: 7px;
+  background: transparent;
+  color: white;
+  border: 0;
+  text-align: left;
+  border-radius: 9px;
+  cursor: pointer;
+}
+
+.nav button:hover {
+  background: #292631;
+}
+
+main {
+  min-width: 0;
+}
+
+.topbar {
+  padding: 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.content {
+  max-width: 1300px;
+  margin: auto;
+  padding: 30px;
+}
+
+h1 {
+  font-size: 34px;
+}
+
+p {
+  color: var(--muted);
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 20px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.card-head {
+  padding: 17px;
+  border-bottom: 1px solid var(--line);
+}
+
+.card-body {
+  padding: 20px;
+}
+
+textarea {
+  width: 100%;
+  height: 160px;
+  background: #111116;
+  border: 1px solid #393642;
+  border-radius: 10px;
+  padding: 14px;
+  color: white;
+  resize: vertical;
+}
+
+label {
+  display: block;
+  margin: 12px 0 7px;
+  color: var(--muted);
+}
+
+select {
+  width: 100%;
+  padding: 11px;
+  background: #111116;
+  color: white;
+  border: 1px solid #393642;
+  border-radius: 8px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.upload {
+  padding: 15px;
+  border: 1px dashed #65577d;
+  border-radius: 10px;
+  margin: 18px 0;
+}
+
+.upload input {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.generate {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(100deg,#a78bfa,#e879f9);
+  color: #17121f;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.generate:hover {
+  opacity: .85;
+}
+
+.preview {
+  min-height: 280px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 20px;
+  background: radial-gradient(circle,#342849,#121217);
+}
+
+.preview button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid #82749c;
+  background: transparent;
+  color: white;
+  font-size: 22px;
+}
+
+.scene {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  margin: 10px;
+  background: #17171d;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.scene button {
+  background: transparent;
+  border: 0;
+  color: #ff7777;
+  cursor: pointer;
+}
+
+.empty {
+  text-align: center;
+  padding: 20px;
+  color: var(--muted);
+}
+
+@media(max-width:900px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .content {
+    padding: 18px;
+  }
+}
+
+@media(max-width:480px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+<div class="brand">
+🎙 BIG_BOSS STUDIO
+</div>
+
+<div class="nav">
+<button>✦ Create Video</button>
+<button>▦ My Projects</button>
+<button>▤ Scene Builder</button>
+<button>✧ Prompt Examples</button>
+<button>⚙ Settings</button>
+</div>
+
+</aside>
+
+<main>
+
+<header class="topbar">
+BIG_BOSS FLOW STUDIO
+</header>
+
+<div class="content">
+
+<h1>Bring Your Ideas To Life.</h1>
+<p>Create cinematic AI video scenes with BIG_BOSS FLOW STUDIO.</p>
+
+<div class="workspace">
+
+<section class="card">
+
+<div class="card-head">
+<strong>✦ Create A Video</strong>
+</div>
+
+<div class="card-body">
+
+<label>Describe your scene</label>
+
+<textarea id="prompt"
+placeholder="Describe your video scene here..."></textarea>
+
+<div class="row">
+
+<div>
+<label>Video Duration</label>
+<select id="duration">
+<option>5 seconds</option>
+<option>8 seconds</option>
+<option>10 seconds</option>
+<option>15 seconds</option>
+</select>
+</div>
+
+<div>
+<label>Aspect Ratio</label>
+<select id="ratio">
+<option>16:9</option>
+<option>9:16</option>
+<option>1:1</option>
+</select>
+</div>
+
+<div>
+<label>Video Style</label>
+<select id="style">
+<option>Cinematic Realistic</option>
+<option>Photorealistic</option>
+<option>3D Animation</option>
+<option>Anime</option>
+<option>Documentary</option>
+</select>
+</div>
+
+<div>
+<label>AI Model</label>
+<select id="model">
+<option>Veo-style (Demo)</option>
+<option>Omni-style (Demo)</option>
+</select>
+</div>
+
+</div>
+
+<div class="upload">
+<strong>📷 Upload Reference Image</strong>
+<input type="file" accept="image/*">
+</div>
+
+<button class="generate" onclick="generateScene()">
+✦ Generate Scene
+</button>
+
+</div>
+</section>
+
+<section>
+
+<div class="card">
+
+<div class="card-head">
+<strong>Video Preview</strong>
+</div>
+
+<div class="preview">
+<div>
+<button>▶</button>
+<h3 id="previewTitle">Your Scene Starts Here</h3>
+<p>Your generated video will appear here.</p>
+</div>
+</div>
+
+<div class="card-head">
+<strong>Storyboard</strong>
+</div>
+
+<div id="scenes">
+<div class="empty">No scenes yet.</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="card-head">
+<strong>Project Export</strong>
+</div>
+
+<div class="card-body">
+
+<button class="generate" onclick="exportScenes()">
+↓ Download Storyboard
+</button>
+
+</div>
+</div>
+
+</section>
+
+</div>
+</div>
+</main>
+</div>
+
+<script>
+
+let scenes = JSON.parse(
+localStorage.getItem("bigBossScenes") || "[]"
+);
+
+function saveScenes() {
+localStorage.setItem(
+"bigBossScenes",
+JSON.stringify(scenes)
+);
+}
+
+function generateScene() {
+
+const prompt = document.getElementById("prompt").value.trim();
+
+if (!prompt) {
+alert("Please describe your video scene first.");
+return;
+}
+
+const duration = document.getElementById("duration").value;
+const ratio = document.getElementById("ratio").value;
+const style = document.getElementById("style").value;
+
+scenes.push({
+prompt,
+duration,
+ratio,
+style
+});
+
+saveScenes();
+renderScenes();
+
+document.getElementById("previewTitle").innerText =
+"Scene Added Successfully!";
+
+document.getElementById("prompt").value = "";
+
+}
+
+function renderScenes() {
+
+const container = document.getElementById("scenes");
+
+if (scenes.length === 0) {
+container.innerHTML =
+'<div class="empty">No scenes yet.</div>';
+return;
+}
+
+container.innerHTML = "";
+
+scenes.forEach((scene, index) => {
+
+const div = document.createElement("div");
+
+div.className = "scene";
+
+const info = document.createElement("div");
+const title = document.createElement("strong");
+title.textContent = "Scene " + (index + 1);
+
+const description = document.createElement("p");
+description.textContent =
+scene.prompt + " | " + scene.duration + " | " + scene.style;
+
+info.appendChild(title);
+info.appendChild(description);
+
+const remove = document.createElement("button");
+remove.textContent = "Remove";
+
+remove.onclick = () => {
+scenes.splice(index, 1);
+saveScenes();
+renderScenes();
+};
+
+div.appendChild(info);
+div.appendChild(remove);
+
+container.appendChild(div);
+
+});
+
+}
+
+function exportScenes() {
+
+if (!scenes.length) {
+alert("Add scenes before exporting.");
+return;
+}
+
+const text = scenes.map((scene, index) => {
+
+return `SCENE ${index + 1}
+
+Duration: ${scene.duration}
+Ratio: ${scene.ratio}
+Style: ${scene.style}
+
+PROMPT:
+${scene.prompt}`;
+
+}).join("\n\n----------------------\n\n");
+
+const file = new Blob([text], {
+type: "text/plain"
+});
+
+const link = document.createElement("a");
+
+link.href = URL.createObjectURL(file);
+link.download = "BIG_BOSS_STORYBOARD.txt";
+
+link.click();
+
+URL.revokeObjectURL(link.href);
+
+}
+
+renderScenes();
+
+</script>
+
+</body>
+</html>
+
+Important
+
+This code creates the website interface and storyboard. It does not yet generate actual AI videos. That requires connecting a video-generation API securely.
+
+Next step: We can upgrade it with real AI video generation, image-to-video, character consistency and MP4 downloads.
